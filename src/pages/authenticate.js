@@ -48,8 +48,6 @@ export default class Authentication extends Component {
                       placeholder="Retype Password"
                       />)
               }
-
-
           </List>
           <View styles={styles.loginWrapper}>
           <Button 
@@ -103,6 +101,6 @@ const styles = StyleSheet.create({
       height: '60%',
   },
   loginWrapper: {
-    width: '100%',
+    width: '66%',
   }
 })
