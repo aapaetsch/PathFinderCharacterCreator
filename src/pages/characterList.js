@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { View, Text } from 'react-native';
 
 export default class CharacterList extends Component {
   constructor(props) {
@@ -8,9 +8,11 @@ export default class CharacterList extends Component {
 
   render () {
     return (
-      <div>
-        
-      </div>  
+      <View>
+        <Text h1 >Hello world</Text>
+
+      </View>
+      
     );
   }
 }
