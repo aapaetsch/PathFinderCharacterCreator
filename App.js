@@ -1,25 +1,53 @@
+import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View, ScrollView } from 'react-native';
-import { Button, Text, ThemeProvider } from 'react-native-elements';
-
-import CharacterList from './src/pages/characterList';
+import React, {Component} from 'react';
+import { StyleSheet, View } from 'react-native';
+import HomePage from './src/pages/homePage';
 import Landing from './src/pages/landing';
+import Authentication from './src/pages/authenticate';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Landing />
-      <StatusBar style="auto" />
-    </View>
-  );
+export default class App extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      authenticated: false,
+      currentPage: 'Landing'
+    }
+  }
+
+  switchPage = (page) => {
+    this.setState({currentPage: page});
+  }
+
+  logout = () => {
+    this.setState({authenticated: false, currentPage: 'Landing'});
+  }
+
+  render() {
+    
+    return (
+      <View style={styles.container}>
+        {
+            this.state.currentPage === 'Landing' 
+                  ? <Landing switchPage={this.switchPage}/>
+                  : (this.state.currentPage === 'Login' || this.state.currentPage === 'Sign Up')
+                  ? <Authentication type={this.state.currentPage} close={this.switchPage}/>
+                  : (this.state.currentPage === 'Character List')
+                  ? <HomePage logout={this.logout} />
+                  : <View></View>
+        }
+        <StatusBar style="auto"/>
+      </View>      
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#5e0000',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
+    width: '100%'
   },
 });

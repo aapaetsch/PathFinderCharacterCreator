@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import { View, Text, StyleSheet } from 'react-native';
 
 export default class CharacterList extends Component {
   constructor(props) {
@@ -8,9 +8,17 @@ export default class CharacterList extends Component {
 
   render () {
     return (
-      <div>
-        
-      </div>  
+      <View style={styles.charListWrapper}>
+        <Text h1 >Hello world</Text>
+
+      </View>
+      
     );
   }
 }
+
+const styles = StyleSheet.create({
+  charListWrapper: {
+    width: '100%'
+  }
+})
