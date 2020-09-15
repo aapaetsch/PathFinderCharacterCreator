@@ -26,18 +26,18 @@ export default class App extends Component {
   render() {
     
     return (
-        <View style={styles.container}>
-          {this.state.currentPage === 'Landing'
-            ? <Landing switchPage={this.switchPage}/>
-            : (this.state.currentPage === 'Login' || this.state.currentPage === 'Sign Up')
-            ? <Authentication type={this.state.currentPage} close={this.switchPage}/>
-            : (this.state.currentPage === 'Character List')
-            ? <HomePage />
-            : <View></View>
-          }
-        
-          <StatusBar style="auto"/>
-        </View>      
+      <View style={styles.container}>
+        {
+            this.state.currentPage === 'Landing' 
+                  ? <Landing switchPage={this.switchPage}/>
+                  : (this.state.currentPage === 'Login' || this.state.currentPage === 'Sign Up')
+                  ? <Authentication type={this.state.currentPage} close={this.switchPage}/>
+                  : (this.state.currentPage === 'Character List')
+                  ? <HomePage logout={this.logout} />
+                  : <View></View>
+        }
+        <StatusBar style="auto"/>
+      </View>      
     );
   }
 }
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#5e0000',
-    alignItems: 'center',
+    // alignItems: 'center',
     justifyContent: 'center',
     width: '100%'
   },
