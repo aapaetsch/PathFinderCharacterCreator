@@ -7,7 +7,7 @@ import Landing from './src/pages/landing';
 import Authentication from './src/pages/authenticate';
 import { AppLoading } from 'expo';
 import * as Font from 'expo-font';
-
+import { Ionicons } from '@expo/vector-icons';
 
 export default class App extends Component {
   constructor(props){
@@ -20,8 +20,13 @@ export default class App extends Component {
   }
 
   async componentDidMount() {
-    await Font.loadAsync('antoutline', require('@ant-design/icons-react-native/fonts/antoutline.ttf'));
-    await Font.loadAsync('antfill', require('@ant-design/icons-react-native/fonts/antfill.ttf'));
+    await Font.loadAsync({
+      Roboto: require('native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('native-base/Fonts/Roboto_medium.ttf'),
+      antfill: require('@ant-design/icons-react-native/fonts/antfill.ttf'),
+      antoutline: require('@ant-design/icons-react-native/fonts/antoutline.ttf'),
+      ...Ionicons.font,
+    })
     this.setState({ isReady: true });
   }
 

@@ -40,7 +40,16 @@ export async function signInWithProvider(providerName) {
   }
 
   try {
-    return await auth().signInWithPopup(provider);
+    await auth().signInWithRedirect(provider);
+    firebase.auth().getRedirectResult().then( (res) => {
+      if (res.credential){
+        const token = res.credential.accessToken;
+        return token;
+      }
+    }).catch( (err) => {
+      console.log(err);
+      return false;
+    })
 
   } catch (error) {
     console.log(error);

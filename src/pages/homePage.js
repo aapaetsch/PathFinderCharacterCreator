@@ -15,7 +15,8 @@ const HomePage = props =>{
         screenOptions={{
           headerTitle: () => (
             <Image style={styles.imgResize} source={require('../../assets/transparentLogo.png')}/>
-          )
+          ),
+          headerStyle: {backgroundColor: '#5e0000'}
         }}>
         <Stack.Screen name="Character List">
           { rest => <CharacterList logout={props.logout} {...rest}/>}
@@ -36,7 +37,10 @@ const styles = StyleSheet.create({
     marginRight: 4
   },
   imgResize: {
-    width: 50,
-    height: 45
+    width: 55,
+    height: 55,
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    borderRadius: 5
   },
 })

@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 // import { Button, Overlay, ThemeProvider, Text } from 'react-native-elements';
 import { View, StyleSheet, Text, TouchableOpacity  } from 'react-native';
 import { Button, Toast, List, InputItem, WingBlank } from '@ant-design/react-native';
-import { createForm } from 'rc-form';
 import { signInWithProvider } from "../helpers/auth";
 import { auth } from '../services/firebase';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -12,6 +11,9 @@ export default class Authentication extends Component {
         super(props);
         this.state = {
           title: null,
+          email: null,
+          password: null,
+          password2: null
         }
     }
 
@@ -40,10 +42,26 @@ export default class Authentication extends Component {
     }
 
     signInProvider = (provider) => {
-      // signInWithProvider(provider)
-      //   .then( (res) => console.log(res))
-      //   .then( () => console.log(auth().currentUser))
-      this.success();
+      signInWithProvider(provider)
+        .then( (res) => console.log(res))
+        .then( () => console.log(auth().currentUser))
+        .then(() => this.success() );
+    }
+
+    changeEmail = (email) => {
+      this.setState({email: email});
+    }
+
+    changePassword = (pass) => {
+      this.setState({password: pass});
+    }
+
+    retypePassword = (pass2) => {
+      this.setState( {password2: pass2});
+    }
+
+    onFinish = () => {
+      console.log(this.state);
     }
 
     render () {
@@ -55,25 +73,32 @@ export default class Authentication extends Component {
           <WingBlank>
             <List>
               <InputItem
+                onChange={res => this.changeEmail(res)}
                 clear
-                placeholder="User Name"
-                />
+                placeholder="Email">
+                <AntIcon name='user' size={20}/>
+              </InputItem>
               <InputItem
+                onChange={res => this.changePassword(res)}
                 clear
-                placeholder="Password"
-                />
+                placeholder="Password">
+                <AntIcon name='lock1' size={20}/>
+              </InputItem>
                 {
                   this.props.type === 'Sign Up'
                   && (<InputItem
+                        onChange={ res => this.retypePassword(res)}
                         clear
-                        placeholder="Retype Password"
-                        />)
+                        placeholder="Retype Password">
+                        <AntIcon name='lock1' size={20}  color='#f0ae45'/>
+                    </InputItem>
+                    )
                 }
             </List>
             <Button
-              style={styles.btnWrapper}
+              style={styles.loginBtn}
               type='primary'
-              onPress={this.success}>
+              onPress={this.onFinish}>
               <Text style={styles.btnTxt}>{this.props.type}</Text>
             </Button>
             <Text style={styles.textStyles}>OR</Text>
@@ -91,12 +116,20 @@ export default class Authentication extends Component {
               <AntIcon name='github' size={20}/>
               &nbsp;{this.props.type} With Github
             </Button>
+            <Button
+              style={styles.providerBtn}
+              type='primary'
+              onPress={() => this.signInProvider('apple')}>
+              <AntIcon name='apple1' size={20}/>
+              &nbsp;{this.props.type} With Apple
+            </Button>
+
             <View style={styles.swapWrapper}>
-                {
-                  this.props.type === 'Login'
-                    ? (<Text style={styles.swapTxt}>Don't have an account?    </Text>)
-                    : (<Text style={styles.swapTxt}>Already have an account?    </Text>)
-                }
+              {
+                this.props.type === 'Login'
+                  ? (<Text style={styles.swapTxt}>Don't have an account?    </Text>)
+                  : (<Text style={styles.swapTxt}>Already have an account?    </Text>)
+              }
               <TouchableOpacity onPress={this.swapPage}>
                 <Text style={styles.linkBtnTxt}>{this.swapTitle()}</Text>
               </TouchableOpacity>
@@ -118,6 +151,7 @@ const styles = StyleSheet.create({
   swapWrapper: {
     flexDirection: 'row',
     marginTop: '6%',
+    alignSelf: 'center'
   },
   swapTxt: {
     color: '#fff',
@@ -155,13 +189,16 @@ const styles = StyleSheet.create({
       height: 3
     }
   },
-  btnWrapper: {
+  loginBtn: {
     marginTop: '5%',
     marginBottom: '5%',
+    backgroundColor: '#f0ae45',
+    borderColor: '#f0ae45',
     // height: '60%',
   },
   providerBtn: {
-    color: '#f0ae45',
+    backgroundColor: '#f0ae45',
+    borderColor: '#f0ae45',
     marginTop: '2%',
     marginBottom: '2%'
   }
