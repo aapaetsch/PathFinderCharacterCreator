@@ -9,36 +9,21 @@ import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
 
 const HomePage = props =>{
-    return (
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="Character List"
-              component={CharacterList}
-              options={{
-                headerLeft: () => (
-                  <Button
-                    style={styles.headerBtn}
-                    onPress={props.logout}
-                    title='Logout'
-                    />
-                ),
-                headerRight: () => (
-                  <Button
-                    style={styles.headerBtn}
-                    onPress={() => navigate.navigate('Character Creator')}
-                    title={`Add New`}
-                    />
-                ),
-                headerTitle: () => (
-                  <Image style={styles.imgResize} source={require('../../assets/transparentLogo.png')}/>
-                )
-              }}
-            />
-            <Stack.Screen name="Character Creator" component={CharacterCreator}/>
-          </Stack.Navigator>
-        </NavigationContainer>
-    )
+  return (
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitle: () => (
+            <Image style={styles.imgResize} source={require('../../assets/transparentLogo.png')}/>
+          )
+        }}>
+        <Stack.Screen name="Character List">
+          { rest => <CharacterList logout={props.logout} {...rest}/>}
+        </Stack.Screen>
+        <Stack.Screen name="Character Creator" component={CharacterCreator}/>
+      </Stack.Navigator>
+    </NavigationContainer>
+  )
 }
 
 export default HomePage;
