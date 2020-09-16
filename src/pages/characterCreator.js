@@ -1,17 +1,18 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
+import { Button } from '@ant-design/react-native';
 
 
 export default class CharacterCreator extends Component {
-    constructor(props){
-        super(props);
-    }
+  constructor(props){
+    super(props);
+  }
 
-    render() {
-        return (
-            <View>
-
-            </View>
-        )
-    }
+  render() {
+    return (
+      <ScrollView>
+        <Button type='primary'>Hello</Button>
+      </ScrollView>
+    )
+  }
 }

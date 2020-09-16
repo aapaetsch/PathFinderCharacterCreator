@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 // import { Button, Overlay, ThemeProvider, Text } from 'react-native-elements';
-import { View, StyleSheet, Text  } from 'react-native';
-import { Button, Toast, List, InputItem } from '@ant-design/react-native/';
-import Input from '@ant-design/react-native/lib/input-item/Input';
+import { View, StyleSheet, Text, TouchableOpacity  } from 'react-native';
+import { Button, Toast, List, InputItem, WingBlank } from '@ant-design/react-native';
 import { createForm } from 'rc-form';
+import { signInWithProvider } from "../helpers/auth";
+import { auth } from '../services/firebase';
+import AntIcon from 'react-native-vector-icons/AntDesign';
 
 export default class Authentication extends Component {
     constructor(props){
@@ -16,63 +18,123 @@ export default class Authentication extends Component {
     shouldComponentUpdate(nextProps) {
         return this.props !== nextProps;
     }
+
     componentDidMount(){
       console.log(this.props)
     }
-
-
 
     success = () => {
       this.props.close('Character List')
     }
 
+    swapTitle = () => {
+      if (this.props.type === 'Login') {
+        return 'Sign Up';
+      } else {
+        return 'Login';
+      }
+    }
+
+    swapPage = () => {
+      this.props.close(this.swapTitle());
+    }
+
+    signInProvider = (provider) => {
+      // signInWithProvider(provider)
+      //   .then( (res) => console.log(res))
+      //   .then( () => console.log(auth().currentUser))
+      this.success();
+    }
+
     render () {
       return (
-        <View styles={styles.loginWrapper}>
+        <View>
           <View style={styles.header}>
-            <Text h1 style={styles.headerTxt}>{this.props.type}</Text>
+            <Text style={styles.headerTxt}>{this.props.type}</Text>
           </View>
-          <List>
-            <InputItem 
-              clear
-              placeholder="User Name"
-              />
-            <InputItem
-              clear
-              placeholder="Password"
-              />
-              {
-                this.props.type === 'Sign Up'
-                && (<InputItem
-                      clear
-                      placeholder="Retype Password"
-                      />)
-              }
-          </List>
-          <View styles={styles.loginWrapper}>
-          <Button 
-            type='primary'
-            onPress={this.success}
-            >
-            <Text style={styles.btnTxt}>{this.props.type}</Text>
-          </Button>
-          </View>
-
-          
+          <WingBlank>
+            <List>
+              <InputItem
+                clear
+                placeholder="User Name"
+                />
+              <InputItem
+                clear
+                placeholder="Password"
+                />
+                {
+                  this.props.type === 'Sign Up'
+                  && (<InputItem
+                        clear
+                        placeholder="Retype Password"
+                        />)
+                }
+            </List>
+            <Button
+              style={styles.btnWrapper}
+              type='primary'
+              onPress={this.success}>
+              <Text style={styles.btnTxt}>{this.props.type}</Text>
+            </Button>
+            <Text style={styles.textStyles}>OR</Text>
+            <Button
+              style={styles.providerBtn}
+              type='primary'
+              onPress={() => this.signInProvider('goog')}>
+              <AntIcon name='google' size={20}/>
+              &nbsp;{this.props.type} With Google
+            </Button>
+            <Button
+              style={styles.providerBtn}
+              type='primary'
+              onPress={() => this.signInProvider('git')}>
+              <AntIcon name='github' size={20}/>
+              &nbsp;{this.props.type} With Github
+            </Button>
+            <View style={styles.swapWrapper}>
+                {
+                  this.props.type === 'Login'
+                    ? (<Text style={styles.swapTxt}>Don't have an account?    </Text>)
+                    : (<Text style={styles.swapTxt}>Already have an account?    </Text>)
+                }
+              <TouchableOpacity onPress={this.swapPage}>
+                <Text style={styles.linkBtnTxt}>{this.swapTitle()}</Text>
+              </TouchableOpacity>
+            </View>
+          </WingBlank>
         </View>
-        
       );
     }
 }
 
-
-
-
 const styles = StyleSheet.create({
+  textStyles: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 30,
+    marginTop: '3%',
+    marginBottom: '3%',
+  },
+  swapWrapper: {
+    flexDirection: 'row',
+    marginTop: '6%',
+  },
+  swapTxt: {
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: 20
+  },
+  linkBtnTxt: {
+    color: '#f0ae45',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
+    fontSize: 20
+  },
   headerTxt: {
     color: '#fff',
     textAlign: 'center',
-    fontSize: 35
+    fontSize: 35,
+    fontWeight: 'bold',
   },
   header: {
     marginBottom: '20%'
@@ -84,23 +146,23 @@ const styles = StyleSheet.create({
   btnAuth: {
     backgroundColor: '#f0ae45',
     borderRadius: 20,
-    
     height: '20%',
     shadowRadius: 60,
     shadowOpacity: 0.3,
     shadowColor: "#fff",
     shadowOffset: {
-      widht: 1,
+      width: 1,
       height: 3
     }
   },
   btnWrapper: {
     marginTop: '5%',
-      marginBottom: '5%',
-      width: '66%',
-      height: '60%',
+    marginBottom: '5%',
+    // height: '60%',
   },
-  loginWrapper: {
-    width: '66%',
+  providerBtn: {
+    color: '#f0ae45',
+    marginTop: '2%',
+    marginBottom: '2%'
   }
 })

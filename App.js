@@ -5,14 +5,24 @@ import { StyleSheet, View } from 'react-native';
 import HomePage from './src/pages/homePage';
 import Landing from './src/pages/landing';
 import Authentication from './src/pages/authenticate';
+import { AppLoading } from 'expo';
+import * as Font from 'expo-font';
+
 
 export default class App extends Component {
   constructor(props){
     super(props);
     this.state = {
       authenticated: false,
-      currentPage: 'Landing'
+      currentPage: 'Landing',
+      isReady: false,
     }
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync('antoutline', require('@ant-design/icons-react-native/fonts/antoutline.ttf'));
+    await Font.loadAsync('antfill', require('@ant-design/icons-react-native/fonts/antfill.ttf'));
+    this.setState({ isReady: true });
   }
 
   switchPage = (page) => {
@@ -24,21 +34,25 @@ export default class App extends Component {
   }
 
   render() {
-    
-    return (
-      <View style={styles.container}>
-        {
-            this.state.currentPage === 'Landing' 
-                  ? <Landing switchPage={this.switchPage}/>
-                  : (this.state.currentPage === 'Login' || this.state.currentPage === 'Sign Up')
-                  ? <Authentication type={this.state.currentPage} close={this.switchPage}/>
-                  : (this.state.currentPage === 'Character List')
-                  ? <HomePage logout={this.logout} />
-                  : <View></View>
-        }
-        <StatusBar style="auto"/>
-      </View>      
-    );
+    if (this.state.isReady) {
+      return (
+        <View style={styles.container}>
+          {
+            this.state.currentPage === 'Landing'
+              ? <Landing switchPage={this.switchPage}/>
+              : (this.state.currentPage === 'Login' || this.state.currentPage === 'Sign Up')
+              ? <Authentication type={this.state.currentPage} close={this.switchPage}/>
+              : (this.state.currentPage === 'Character List')
+                ? <HomePage logout={this.logout} />
+                : <View></View>
+          }
+
+          <StatusBar style="auto"/>
+        </View>
+      )
+    } else {
+      return <AppLoading />
+    }
   }
 }
 
@@ -46,7 +60,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#5e0000',
-    // alignItems: 'center',
     justifyContent: 'center',
     width: '100%'
   },

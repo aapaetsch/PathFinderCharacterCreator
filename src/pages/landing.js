@@ -16,10 +16,6 @@ export default class Landing extends Component {
       this.props.switchPage(type);
     }
 
-    hideAuth = () => {
-      
-    }
-
     render () {
         return (
             <View style={styles.container}>

@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
 import CharacterList from './characterList';
 import CharacterCreator from './characterCreator';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Button, Image } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Button } from '@ant-design/react-native';
+// import { Button } from '@ant-design/react-native';
 
 const Stack = createStackNavigator();
-const Tab = createBottomTabNavigator();
 
 const HomePage = props =>{
     return (
@@ -19,31 +17,26 @@ const HomePage = props =>{
               component={CharacterList}
               options={{
                 headerLeft: () => (
-                  <Button 
-                    type="ghost"
+                  <Button
                     style={styles.headerBtn}
                     onPress={props.logout}
-                    >
-                    Logout
-                  </Button>
+                    title='Logout'
+                    />
                 ),
                 headerRight: () => (
                   <Button
-                    type='ghost'
                     style={styles.headerBtn}
-                    onPress={() => alert('You clicked this bitch')}
-                    >
-                    Add New
-                  </Button>
+                    onPress={() => navigate.navigate('Character Creator')}
+                    title={`Add New`}
+                    />
+                ),
+                headerTitle: () => (
+                  <Image style={styles.imgResize} source={require('../../assets/transparentLogo.png')}/>
                 )
               }}
             />
             <Stack.Screen name="Character Creator" component={CharacterCreator}/>
           </Stack.Navigator>
-          {/* <Tab.Navigator>
-            <Tab.Screen name="Character List" component={CharacterList}/>
-            <Tab.Screen name="Character Creator" component={CharacterCreator}/>
-          </Tab.Navigator> */}
         </NavigationContainer>
     )
 }
@@ -56,5 +49,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginLeft: 4,
     marginRight: 4
-  }
+  },
+  imgResize: {
+    width: 50,
+    height: 45
+  },
 })

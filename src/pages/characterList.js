@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet } from 'react-native';
+import { List } from '@ant-design/react-native';
+import CharListItem from '../components/characterListItem';
 
 export default class CharacterList extends Component {
   constructor(props) {
@@ -8,17 +10,38 @@ export default class CharacterList extends Component {
 
   render () {
     return (
-      <View style={styles.charListWrapper}>
-        <Text h1 >Hello world</Text>
-
-      </View>
-      
+        <List renderHeader={ () => 'Character List'}>
+          <ScrollView style={styles.charListWrapper}>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+            <CharListItem name="George"/>
+          </ScrollView>
+        </List>
     );
   }
 }
 
 const styles = StyleSheet.create({
   charListWrapper: {
-    width: '100%'
+    width: '100%',
+    height: '100%'
   }
 })
