@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, View, ScrollView, ColorPropType } from 'react-native';
-import { Text } from 'react-native-elements';
+import { StyleSheet, View, ScrollView, ColorPropType, Text } from 'react-native';
 import Button from '@ant-design/react-native/lib/button';
 import Authenticate from '../pages/authenticate';
 
@@ -20,31 +19,30 @@ export default class Landing extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.around}>
-                  <Text h1 style={styles.title}>
+                  <Text style={styles.title}>
                     Trailfinder 2 Character Creator
                   </Text>
                 </View>
                 <View style={styles.btnWrapper}>
-                  <Button 
+                  <Button
                     onPress={ () => this.showAuth('Login')}
                     type="primary"
                     style={styles.btnAuth}
                     >
-                    <Text>Login</Text>
+                    <Text styles={styles.btnAuthTxt}>Login</Text>
                   </Button>
                 </View>
 
                 <View style={styles.btnWrapper}>
-                  <Button 
+                  <Button
                     type="primary"
                     onPress={ () => this.showAuth('Sign Up')}
                     style={styles.btnAuth}
                     >
-                    <Text>Sign Up</Text>
+                    <Text styles={styles.btnAuthTxt}>Sign Up</Text>
                   </Button>
                 </View>
             </View>
-
         );
     }
 }
@@ -66,22 +64,31 @@ const styles = StyleSheet.create({
   },
   btnAuth: {
     backgroundColor: '#f0ae45',
-      borderRadius: 20,
-      width: '100%',
-      height: '100%',
-      shadowRadius: 60,
-      shadowOpacity: 0.3,
-      shadowColor: "#fff",
-      shadowOffset: {
-        widht: 1,
-        height: 3
-      }
+    borderColor: '#f0ae45',
+    borderRadius: 20,
+    width: '100%',
+    height: '100%',
+    shadowRadius: 60,
+    shadowOpacity: 0.3,
+    shadowColor: "#fff",
+    shadowOffset: {
+      width: 1,
+      height: 3
+    },
+    textAlign: 'center'
+
+  },
+  btnAuthTxt: {
+    color: '#fff',
+    fontSize: 200,
+    fontWeight: 'bold',
   },
   btnWrapper: {
     marginTop: '5%',
-      marginBottom: '5%',
-      width: '66%',
-      height: '10%',
+    marginBottom: '5%',
+    width: '66%',
+    height: '10%',
+    textAlign: 'center'
   }
-  
+
 });

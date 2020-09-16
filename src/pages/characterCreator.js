@@ -1,7 +1,9 @@
-import React, { Component, createRef } from 'react';
+import React, { Component } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
 import { Button, List, WingBlank } from '@ant-design/react-native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import AbilityScoresComponent from "../components/abilityScoresComponent";
+import BaseStatsDrawer from "../components/baseStatsDrawer";
 
 export default class CharacterCreator extends Component {
   constructor(props){
@@ -15,8 +17,19 @@ export default class CharacterCreator extends Component {
       equipment: {},
       skills: {},
       ptsRemaining: 0,
+      showStatDrawer: false,
+      drawerContents: <AbilityScoresComponent/> ,
     }
-    this.ref = createRef();
+  }
+
+  toggleStatDrawer = () => {
+    this.setState({ showStatDrawer: !this.state.showStatDrawer});
+  }
+
+  setDrawer = (type) => {
+    this.setState({drawerContents: <AbilityScoresComponent/> });
+
+    this.toggleStatDrawer();
   }
 
 
@@ -24,21 +37,36 @@ export default class CharacterCreator extends Component {
   render() {
     return (
       <View>
+        <BaseStatsDrawer open={this.state.showStatDrawer} sidebar={this.state.drawerContents}>
         <List renderHeader={() => 'list title'}>
+          {/*<BaseStatsDrawer />*/}
+
           <WingBlank>
-            <Button style={styles.charBtn} type='primary'>Description</Button>
-            <Button style={styles.charBtn} type='primary'>Race (Ancestry)</Button>
-            <Button style={styles.charBtn} type='primary'>Class</Button>
-            <Button
-              style={styles.charBtn}
-              type='primary'>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('desc')}>
+              Description
+            </Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('race')}>
+              Race (Ancestry)
+            </Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('class')}>
+              Class
+            </Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('ability')}>
               Ability Scores
             </Button>
-            <Button style={styles.charBtn} type='primary'>Skills</Button>
-            <Button style={styles.charBtn} type='primary'>Feats</Button>
-            <Button style={styles.charBtn} type='primary'>Equipment</Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('skill')}>
+              Skills
+            </Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('feats')}>
+              Feats
+            </Button>
+            <Button style={styles.charBtn} type='primary' onPress={() => this.setDrawer('equipment')}>
+              Equipment
+            </Button>
           </WingBlank>
+
         </List>
+        </BaseStatsDrawer>
       </View>
     )
   }
